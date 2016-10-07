@@ -1,14 +1,15 @@
 package = "laser"
 version = "scm-1"
 source = {
-   url = "*** please add URL for source tarball, zip or repository here ***"
+   url = "https://github.com/sdleffler/laser.git"
 }
 description = {
-   homepage = "*** please enter a project homepage ***",
+   homepage = "https://github.com/sdleffler/laser",
    license = "MIT"
 }
 dependencies = {
-    "lua >= 5.1, < 5.4"
+    "lua >= 5.1, < 5.4",
+    "busted 2.0.rc12-1",
 }
 build = {
    type = "builtin",

@@ -3,9 +3,22 @@
 Intended to eventually be a collection of miscellaneous C-accelerated Lua
 libraries. Documentation is available through LDoc.
 
+Laser is intended to be compatible with LuaJIT, specifically for use with Love2D.
+
 Current modules:
 - `bitset`: a C-accelerated bitset type.
 - `globalize`: a little trick to allow Lua modules to quickly infect the global namespace.
+
+### Installation/Usage
+
+1. Install luarocks and LuaJIT from the [Torch luajit-rocks repository.](https://github.com/torch/luajit-rocks)
+2. Clone this repository (no `luarocks install` yet, sorry.)
+3. Run `luarocks make`.
+
+### Tests
+
+Tests can be run by running `make test`. Uses `busted` for testing, and runs
+busted with `--lua=luajit`.
 
 ### License
 
