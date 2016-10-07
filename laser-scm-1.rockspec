@@ -10,6 +10,7 @@ description = {
 dependencies = {
     "lua >= 5.1, < 5.4",
     "busted 2.0.rc12-1",
+    "ldoc >= 1.4.5",
 }
 build = {
    type = "builtin",
