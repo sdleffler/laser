@@ -1,0 +1,699 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Laser documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Laser</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Class_Bitset">Class Bitset</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/globalize.html">globalize</a></li>
+  <li><strong>bitset</strong></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>bitset</code></h1>
+<p>A simple bitset implementation, accelerated with C.</p>
+<p> Uses 32-bit integers for
+ hypothetical portability. Tested and compatible with LuaJIT and Lua 5.1.</p>
+
+
+<h2><a href="#Class_Bitset">Class Bitset</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:new">Bitset:new (size, init)</a></td>
+	<td class="summary">Allocate a new bitset.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:set">Bitset:set (idx)</a></td>
+	<td class="summary">Sets a single bit in the bitset, at a given index.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:set_range">Bitset:set_range (lo, hi)</a></td>
+	<td class="summary">Sets a range of bits in the bitset, <code>[lo, hi)</code>.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:clear">Bitset:clear (idx)</a></td>
+	<td class="summary">Clears a single bit in the bitset, at a given index.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:clear_range">Bitset:clear_range (lo, hi)</a></td>
+	<td class="summary">Clears a range of bits in the bitset, <code>[lo, hi)</code>.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:get">Bitset:get (idx)</a></td>
+	<td class="summary">Gets a single bit in the bitset, at a given index.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:get_range">Bitset:get_range (lo, hi)</a></td>
+	<td class="summary">Gets a range of bits in the bitset, as a table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:count">Bitset:count ()</a></td>
+	<td class="summary">Counts how many bits are set in the bitset.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:intersection">Bitset:intersection (lhs, rhs)</a></td>
+	<td class="summary">The intersection of two bitsets.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:intersection_mut">Bitset:intersection_mut (lhs, rhs)</a></td>
+	<td class="summary">The in-place intersection of two bitsets.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:union">Bitset:union (lhs, rhs)</a></td>
+	<td class="summary">The union of two bitsets.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:union_mut">Bitset:union_mut (lhs, rhs)</a></td>
+	<td class="summary">The in-place union of two bitsets.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:difference">Bitset:difference (lhs, rhs)</a></td>
+	<td class="summary">The asymmetric difference of two bitsets.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:difference_mut">Bitset:difference_mut (lhs, rhs)</a></td>
+	<td class="summary">The in-place asymmetric difference of two bitsets.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:symmetric_diff">Bitset:symmetric_diff (lhs, rhs)</a></td>
+	<td class="summary">The symmetric difference of two bitsets.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Bitset:symmetric_diff_mut">Bitset:symmetric_diff_mut (lhs, rhs)</a></td>
+	<td class="summary">The in-place symmetric difference of two bitsets.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header has-description"><a name="Class_Bitset"></a>Class Bitset</h2>
+
+          <div class="section-description">
+          A bitset type.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "Bitset:new"></a>
+    <strong>Bitset:new (size, init)</strong>
+    </dt>
+    <dd>
+    Allocate a new bitset.
+Capable of allocating a new bitset, with an optional bit capacity. If specified,
+the bits of the newly allocated bitset can be set to all one. If called with a
+bitset as the first argument instead of a number, the bitset will be cloned.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">size</span>
+            <span class="types"><span class="type">num</span> or <a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the size of a bitset to allocate. Or, if a bitset, the bitset to copy.
+        </li>
+        <li><span class="parameter">init</span>
+            <span class="types"><span class="type">bool</span></span>
+         if true, set all newly allocated bits.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+        a newly allocated bitset.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:set"></a>
+    <strong>Bitset:set (idx)</strong>
+    </dt>
+    <dd>
+    Sets a single bit in the bitset, at a given index.
+The bitset is modified in place, but for convenience, it is also returned.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">idx</span>
+            <span class="types"><span class="type">num</span></span>
+         the index of the bit to set.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+        the modified bitset.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:set_range"></a>
+    <strong>Bitset:set_range (lo, hi)</strong>
+    </dt>
+    <dd>
+    Sets a range of bits in the bitset, <code>[lo, hi)</code>.
+The bitset is modified in place, but for convenience, it is also returned.
+The parameters are named <code>lo</code> and <code>hi</code>, but if <code>lo</code> is greater than <code>hi</code>,
+<a href="../modules/bitset.html#Bitset:set_range">set_range</a> will swap them internally. The low bound is inclusive while the high
+bound is exclusive.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lo</span>
+            <span class="types"><span class="type">num</span></span>
+         the low index of the range to set.
+        </li>
+        <li><span class="parameter">hi</span>
+            <span class="types"><span class="type">num</span></span>
+         the high index of the range to set.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+        the modified bitset.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:clear"></a>
+    <strong>Bitset:clear (idx)</strong>
+    </dt>
+    <dd>
+    Clears a single bit in the bitset, at a given index.
+The bitset is modified in place, but for convenience, it is also returned.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">idx</span>
+            <span class="types"><span class="type">num</span></span>
+         the index of the bit to clear.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+        the modified bitset.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:clear_range"></a>
+    <strong>Bitset:clear_range (lo, hi)</strong>
+    </dt>
+    <dd>
+    Clears a range of bits in the bitset, <code>[lo, hi)</code>.
+The bitset is modified in place, but for convenience, it is also returned.
+The parameters are named <code>lo</code> and <code>hi</code>, but if <code>lo</code> is greater than <code>hi</code>,
+<a href="../modules/bitset.html#Bitset:clear_range">clear_range</a> will swap them internally. The low bound is inclusive while the
+high bound is exclusive.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lo</span>
+            <span class="types"><span class="type">num</span></span>
+         the low index of the range to clear.
+        </li>
+        <li><span class="parameter">hi</span>
+            <span class="types"><span class="type">num</span></span>
+         the high index of the range to clear.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+        the modified bitset.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:get"></a>
+    <strong>Bitset:get (idx)</strong>
+    </dt>
+    <dd>
+    Gets a single bit in the bitset, at a given index.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">idx</span>
+            <span class="types"><span class="type">num</span></span>
+         the index of the bit to get.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        whether the bit is set.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:get_range"></a>
+    <strong>Bitset:get_range (lo, hi)</strong>
+    </dt>
+    <dd>
+    Gets a range of bits in the bitset, as a table.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lo</span>
+            <span class="types"><span class="type">num</span></span>
+         the low bound of the range to get.
+        </li>
+        <li><span class="parameter">hi</span>
+            <span class="types"><span class="type">num</span></span>
+         the high bound of the range to get.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">{bool,...}</span></span>
+        the range set. Indexing starts at 1, and ends at <code>hi - lo + 1</code>.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:count"></a>
+    <strong>Bitset:count ()</strong>
+    </dt>
+    <dd>
+    Counts how many bits are set in the bitset.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">num</span></span>
+        the number of set bits.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:intersection"></a>
+    <strong>Bitset:intersection (lhs, rhs)</strong>
+    </dt>
+    <dd>
+    The intersection of two bitsets.  Also available as the <code>*</code> operator.
+NOTE: <a href="../modules/bitset.html#Bitset:intersection">Bitset:intersection</a> is a <em>constructive</em> operation. That is, it allocates
+a new bitset to hold the results. For an in-place intersection, see
+<a href="../modules/bitset.html#Bitset:intersection_mut">Bitset:intersection_mut</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the left-hand bitset to intersect.
+        </li>
+        <li><span class="parameter">rhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the right-hand bitset to intersect.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+        a newly allocated bitset containing the intersection.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/bitset.html#Bitset:intersection_mut">Bitset:intersection_mut</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:intersection_mut"></a>
+    <strong>Bitset:intersection_mut (lhs, rhs)</strong>
+    </dt>
+    <dd>
+    The in-place intersection of two bitsets.
+NOTE: <a href="../modules/bitset.html#Bitset:intersection_mut">Bitset:intersection_mut</a> is a <em>destructive</em> operation. That is, it
+mutates the left-hand operand passed to it instead of allocating a new bitset.
+For a constructive intersection operation, see <a href="../modules/bitset.html#Bitset:intersection">Bitset:intersection</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the left-hand bitset to intersect. Is mutated to contain the intersection.
+        </li>
+        <li><span class="parameter">rhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the right-hand bitset to intersect.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+        the left-hand bitset is modified in-place, but returned for convenience.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/bitset.html#Bitset:intersection">Bitset:intersection</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:union"></a>
+    <strong>Bitset:union (lhs, rhs)</strong>
+    </dt>
+    <dd>
+    The union of two bitsets.  Also available as the <code>+</code> operator.
+NOTE: <a href="../modules/bitset.html#Bitset:union">Bitset:union</a> is a <em>constructive</em> operation. That is, it allocates a new
+bitset to hold the results. For an in-place union, see <a href="../modules/bitset.html#Bitset:union_mut">Bitset:union_mut</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the left-hand bitset to union.
+        </li>
+        <li><span class="parameter">rhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the right-hand bitset to union.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+        a newly allocated bitset containing the union.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/bitset.html#Bitset:union_mut">Bitset:union_mut</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:union_mut"></a>
+    <strong>Bitset:union_mut (lhs, rhs)</strong>
+    </dt>
+    <dd>
+    The in-place union of two bitsets.
+NOTE: <a href="../modules/bitset.html#Bitset:union_mut">Bitset:union_mut</a> is a <em>destructive</em> operation. That is, it mutates the
+left-hand operand passed to it instead of allocating a new bitset. For a
+constructive union operation, see <a href="../modules/bitset.html#Bitset:union">Bitset:union</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the left-hand bitset to union. Is mutated to contain the union.
+        </li>
+        <li><span class="parameter">rhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the right-hand bitset to union.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+        the left-hand bitset is modified in-place, but returned for convenience.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/bitset.html#Bitset:union">Bitset:union</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:difference"></a>
+    <strong>Bitset:difference (lhs, rhs)</strong>
+    </dt>
+    <dd>
+    The asymmetric difference of two bitsets.  Also available as the <code>-</code> operator.
+Returns a newly allocated bitset with bits set iff they are set in the left-hand
+operand but not in the right-hand operand.</p>
+
+<p>NOTE: <a href="../modules/bitset.html#Bitset:difference">Bitset:difference</a> is a <em>constructive</em> operation. That is, it allocates a
+new bitset to return the results. For an in-place asymmetric difference
+operation, see <a href="../modules/bitset.html#Bitset:difference_mut">Bitset:difference_mut</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the source bitset.
+        </li>
+        <li><span class="parameter">rhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the bitset to "subtract" from the source.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+        a newly allocated bitset with all bits set that are set in <code>lhs</code> but not in <code>rhs</code>.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/bitset.html#Bitset:difference_mut">Bitset:difference_mut</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:difference_mut"></a>
+    <strong>Bitset:difference_mut (lhs, rhs)</strong>
+    </dt>
+    <dd>
+    The in-place asymmetric difference of two bitsets.
+Clears any bits in the left-hand operand if they are set in the right-hand.</p>
+
+<p>NOTE: <a href="../modules/bitset.html#Bitset:difference_mut">Bitset:difference_mut</a> is a <em>destructive</em> operation. That is, it modifies
+the left-hand operand in-place instead of allocating a new bitset to hold the
+result. For a constructive asymmetric difference operation, see
+<a href="../modules/bitset.html#Bitset:difference">Bitset:difference</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the bitset to modify.
+        </li>
+        <li><span class="parameter">rhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the bitset to "subtract" from the left-hand.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+        the left-hand bitset is modified in place, but returned for convenience.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/bitset.html#Bitset:difference">Bitset:difference</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:symmetric_diff"></a>
+    <strong>Bitset:symmetric_diff (lhs, rhs)</strong>
+    </dt>
+    <dd>
+    The symmetric difference of two bitsets.
+Returns a newly allocated bitset with bits set iff they are set in only the
+left-hand operand or the right-hand operand, but not both.</p>
+
+<p>NOTE: <a href="../modules/bitset.html#Bitset:symmetric_diff">Bitset:symmetric_diff</a> is a <em>constructive</em> operation. That is, it
+allocates a new bitset to hold the result rather than modifying the operands
+in-place. For an in-place symmetric difference operation, see
+<a href="../modules/bitset.html#Bitset:symmetric_diff_mut">Bitset:symmetric_diff_mut</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the left-hand bitset for the symmetric difference operation.
+        </li>
+        <li><span class="parameter">rhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the right-hand bitset for the symmetric difference operation.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+        a newly allocated bitset with all bits set that are set in either <code>lhs</code> or <code>rhs</code>, but not in both.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/bitset.html#Bitset:symmetric_diff_mut">Bitset:symmetric_diff_mut</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Bitset:symmetric_diff_mut"></a>
+    <strong>Bitset:symmetric_diff_mut (lhs, rhs)</strong>
+    </dt>
+    <dd>
+    The in-place symmetric difference of two bitsets.
+Modifies the left-hand operand to contain bits that are set in the right-hand
+but not in the left-hand, and clears any bits that are set in both.</p>
+
+<p>NOTE: <a href="../modules/bitset.html#Bitset:symmetric_diff_mut">Bitset:symmetric_diff_mut</a> is a <em>destructive</em> operation. That is, it
+modifies the left-hand operand in-place instead of allocating a new bitset to
+hold the result. For a constructive symmetric difference operation, see
+<a href="../modules/bitset.html#Bitset:symmetric_diff">Bitset:symmetric_diff</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the bitset to modify.
+        </li>
+        <li><span class="parameter">rhs</span>
+            <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+         the bitset to compare against.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/bitset.html#Bitset">Bitset</a></span>
+        the left-hand bitset is modified in place, but returned for convenience.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/bitset.html#Bitset:symmetric_diff">Bitset:symmetric_diff</a>
+    </ul>
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.5</a></i>
+<i style="float:right;">Last updated 2016-10-07 00:06:54 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

@@ -21,8 +21,11 @@ describe('bitset', function()
         local a = bitset.new()
 
         assert.is_false(a:get(0))
+        assert.are_equal(0, a:dump_raw(0))
 
         a:set(0)
+
+        assert.are_equal(1, a:dump_raw(0))
 
         a:set(7)
 
@@ -55,8 +58,35 @@ describe('bitset', function()
         assert.is_true(a:get(256))
     end)
 
+    it('should copy correctly', function()
+        local a = bitset.new(512)
+
+        for i=0,384 do
+            a:set(i)
+        end
+
+        local b = bitset.new(a)
+
+        for i=0,511 do
+            assert.are_equal(a:get(i), b:get(i))
+        end
+    end)
+
+    it('should initialize with true bits correctly', function()
+        local a = bitset.new(100, true)
+
+        for i=0,99 do
+            assert.is_true(a:get(i))
+        end
+
+        for i=100,127 do
+            assert.is_false(a:get(i))
+        end
+    end)
+
     it('should count set bits correctly', function()
         local a = bitset.new()
+
 
         for i=0,1024 do
             a:set(i)
@@ -87,7 +117,7 @@ describe('bitset', function()
         end
     end)
 
-    it('should set ranges of bits local to one 32-bit raw correctly', function()
+    it('should set ranges of bits local to one raw correctly', function()
         local a = bitset.new()
 
         a:set_range(5, 23)
@@ -127,7 +157,7 @@ describe('bitset', function()
         end
     end)
 
-    it('should clear ranges of bits local to one 32-bit raw correctly', function()
+    it('should clear ranges of bits local to one raw correctly', function()
         local a = bitset.new()
 
         a:set_range(5, 23)
@@ -156,7 +186,7 @@ describe('bitset', function()
         end
     end)
 
-    it('should clear ranges of bits non-local to a single 32-bit raw correctly', function()
+    it('should clear ranges of bits non-local to a single raw correctly', function()
         local a = bitset.new()
 
         a:set_range(47, 124)
@@ -185,7 +215,7 @@ describe('bitset', function()
         end
     end)
 
-    it('should get ranges of bits local to a single 32-bit raw correctly', function()
+    it('should get ranges of bits local to a single raw correctly', function()
         local a = bitset.new()
 
         local bits = { 1, 2, 3, 5, 10, 13, 18, 21, 22, 23, 24, 25, 31 }
@@ -225,7 +255,7 @@ describe('bitset', function()
         end
     end)
 
-    it('should get ranges of bits non-local to a single 32-bit raw correctly', function()
+    it('should get ranges of bits non-local to a single raw correctly', function()
         local a = bitset.new()
 
         local bits = {
@@ -281,6 +311,28 @@ describe('bitset', function()
         end
     end)
 
+    it('should union_mut correctly', function()
+        local a = bitset.new(128)
+        local b = bitset.new(128)
+
+        for i=1,32 do
+            a:set(math.random(0, 127))
+            b:set(math.random(0, 127))
+        end
+
+        local c = bitset.new(a)
+
+        c:union_mut(b)
+
+        for i=0,127 do
+            if a:get(i) or b:get(i) then
+                assert.is_true(c:get(i))
+            else
+                assert.is_false(c:get(i))
+            end
+        end
+    end)
+
     it('should intersect correctly', function()
         local a = bitset.new(128)
         local b = bitset.new(128)
@@ -299,5 +351,167 @@ describe('bitset', function()
                 assert.is_false(c:get(i))
             end
         end
+    end)
+
+    it('should intersect_mut correctly', function()
+        local a = bitset.new(128)
+        local b = bitset.new(128)
+
+        for i=1,64 do
+            a:set(math.random(0, 127))
+            b:set(math.random(0, 127))
+        end
+
+        local c = bitset.new(a)
+
+        c:intersection_mut(b)
+
+        for i=0,127 do
+            if a:get(i) and b:get(i) then
+                assert.is_true(c:get(i))
+            else
+                assert.is_false(c:get(i))
+            end
+        end
+    end)
+
+    it('should difference correctly', function()
+        local a = bitset.new(128)
+        local b = bitset.new(128)
+
+        for i=1,80 do
+            a:set(math.random(0, 127))
+            b:set(math.random(0, 127))
+        end
+
+        local c = a:difference(b)
+
+        for i=0,127 do
+            if b:get(i) then
+                assert.is_false(c:get(i))
+            else
+                assert.are_equal(a:get(i), c:get(i))
+            end
+        end
+    end)
+
+    it('should difference_mut correctly', function()
+        local a = bitset.new(128)
+        local b = bitset.new(128)
+
+        for i=1,80 do
+            a:set(math.random(0, 127))
+            b:set(math.random(0, 127))
+        end
+
+        local c = bitset.new(a)
+        c:difference_mut(b)
+
+        for i=0,127 do
+            if b:get(i) then
+                assert.is_false(c:get(i))
+            else
+                assert.are_equal(a:get(i), c:get(i))
+            end
+        end
+    end)
+
+    it('should symmetric_diff correctly', function()
+        local a = bitset.new(128)
+        local b = bitset.new(128)
+
+        for i=1,80 do
+            a:set(math.random(0, 127))
+            b:set(math.random(0, 127))
+        end
+
+        local c = a:symmetric_diff(b)
+
+        for i=0,127 do
+            if (a:get(i) and not b:get(i)) or (not a:get(i) and b:get(i)) then
+                assert.is_true(c:get(i))
+            else
+                assert.is_false(c:get(i))
+            end
+        end
+    end)
+
+    it('should symmetric_diff_mut correctly', function()
+        local a = bitset.new(128)
+        local b = bitset.new(128)
+
+        for i=1,80 do
+            a:set(math.random(0,127))
+            b:set(math.random(0,127))
+        end
+
+        local c = bitset.new(a)
+        c:symmetric_diff_mut(b)
+
+        for i=0,127 do
+            if (a:get(i) and not b:get(i)) or (not a:get(i) and b:get(i)) then
+                assert.is_true(c:get(i))
+            else
+                assert.is_false(c:get(i))
+            end
+        end
+    end)
+
+    it('should test for equality correctly', function()
+        local a = bitset.new(1024)
+        local b = bitset.new(1024)
+
+        local last_set
+
+        for i=1,768 do
+            local idx = math.random(0,1023)
+
+            a:set(idx)
+            b:set(idx)
+
+            last_set = idx
+        end
+
+        assert.are_equal(a, b)
+
+        b:clear(last_set)
+
+        assert.are_not_equal(a, b)
+    end)
+
+    it('should test subset-ness correctly', function()
+        local a = bitset.new(1024)
+        local b = bitset.new(1024)
+
+        for i=1,512 do
+            local idx = math.random(0,1023)
+
+            a:set(idx)
+            b:set(idx)
+        end
+
+        for i=1,256 do
+            b:set(math.random(0,1023))
+        end
+
+        assert.is_true(a <= b)
+    end)
+
+    it('should test strict subset-ness correctly', function()
+        local a = bitset.new(1024)
+        local b = bitset.new(1024)
+
+        for i=1,512 do
+            local idx = math.random(0,1022)
+
+            a:set(idx)
+            b:set(idx)
+        end
+
+        b:set(1023)
+
+        assert.is_false(a == b)
+        assert.is_true(a <= b)
+        assert.is_true(a < b)
     end)
 end)

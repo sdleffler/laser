@@ -1,3 +1,6 @@
+doc:
+	ldoc .
+
 test:
 	busted --lua=luajit spec/*_spec.lua
 
