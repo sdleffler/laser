@@ -226,7 +226,13 @@ describe('bitset', function()
 
         local set = a:get_range(9, 22)
 
-        for i=0,9 do
+        assert.is_false(set[1])
+        assert.is_true(set[2])
+        assert.is_false(set[3])
+        assert.is_false(set[4])
+        assert.is_true(set[5])
+
+        for i=6,9 do
             assert.falsy(set[i])
         end
 
@@ -238,19 +244,7 @@ describe('bitset', function()
 
         assert.is_true(set[13])
 
-        for i=14,17 do
-            assert.falsy(set[i])
-        end
-
-        assert.is_true(set[18])
-
-        for i=19,20 do
-            assert.falsy(set[i])
-        end
-
-        assert.is_true(set[21])
-
-        for i=22,31 do
+        for i=14,32 do
             assert.falsy(set[i])
         end
     end)
@@ -276,14 +270,14 @@ describe('bitset', function()
             [0965] = true, [0970] = true, [0837] = true, [0882] = true,
             [0696] = true, [0669] = true, [0556] = true, [0907] = true, }
 
-        for i,_ in ipairs(bits) do
+        for i,_ in pairs(bits) do
             a:set(i)
         end
 
         local range = a:get_range(324, 768)
 
         for i,v in ipairs(range) do
-            if bits[i] then
+            if bits[i + 323] then
                 assert.is_true(v)
             else
                 assert.is_false(v)

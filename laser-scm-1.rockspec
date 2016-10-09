@@ -17,6 +17,6 @@ build = {
    modules = {
       globalize = "lib/globalize.lua";
 
-      bitset = "src/bitset.c";
+      bitset = "c/lib/bitset.c";
    }
 }
